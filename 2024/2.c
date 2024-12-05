@@ -78,17 +78,18 @@ int main(int argc, char *argv[])
     free(file);
     return 1;
   }
-  
+ 
   fseek(fileptr, 0, SEEK_END);
   long fsize = ftell(fileptr);
   fseek(fileptr, 0, SEEK_SET);
 
-  char buffer[fsize + 1];
+  char *buffer = malloc(fsize + 1);
   size_t bytes_read = fread(buffer, 1, fsize, fileptr);
 
   if (bytes_read != fsize) {
     perror("File reading failed");
     fclose(fileptr);
+    free(buffer);
     return 1;
   }
 
@@ -144,5 +145,7 @@ int main(int argc, char *argv[])
  
   printf("%d\n", p1);
   printf("%d\n", p2);
+
+  free(buffer);
   return 0;
 }
