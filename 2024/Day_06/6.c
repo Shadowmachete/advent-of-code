@@ -25,33 +25,41 @@ struct int_rcdarr_tuple* traverse(int pr, int pc, int br, int bc, int r, int c, 
   int pos_capacity = 100;
   int d = 0;
 
+  int **visited = malloc(r * sizeof(int *));
+  for (int i = 0; i < r; i++) {
+    visited[i] = calloc(c, sizeof(int));
+  }
+
   while (true) {
     int dr = directions[d][0], dc = directions[d][1];
-    int pos_found = 0;
 
-    for (int pos_idx = 0; pos_idx < pos_len; pos_idx++) {
-      struct rcd *position = &positions[pos_idx];
-      if (position->r == pr && position->c == pc) {
-        pos_found = 1;
+    if (visited[pr][pc]) {
+      for (int pos_idx = 0; pos_idx < pos_len; pos_idx++) {
+        struct rcd *position = &positions[pos_idx];
+        if (position->r == pr && position->c == pc) {
+          for (int dir_idx = 0; dir_idx < position->dir_len; dir_idx++) {
+            if (position->dirs[dir_idx][0] == dr && position->dirs[dir_idx][1] == dc) {
+              struct int_rcdarr_tuple *res = malloc(sizeof(struct int_rcdarr_tuple));
+              res->p2_loop_found = 1;
+              res->pos_len = pos_len;
+              res->positions = positions;
 
-        for (int dir_idx = 0; dir_idx < position->dir_len; dir_idx++) {
-          if (position->dirs[dir_idx][0] == dr && position->dirs[dir_idx][1] == dc) {
-            struct int_rcdarr_tuple *res = malloc(sizeof(struct int_rcdarr_tuple));
-            res->p2_loop_found = 1;
-            res->pos_len = pos_len;
-            res->positions = positions;
-            return res;
+              for (int k = 0; k < r; k++) {
+                free(visited[k]);
+              }
+              free(visited);
+              return res;
+            }
           }
+          if (position->dir_len % 3 == 0) {
+            position->dirs = realloc(position->dirs, (position->dir_len + 3) * sizeof(int[2]));
+          }
+          memcpy(position->dirs[position->dir_len], (int[2]){dr, dc}, sizeof(int[2]));
+          position->dir_len++;
+          break;
         }
-        if (position->dir_len % 5 == 0) {
-          position->dirs = realloc(position->dirs, (position->dir_len + 5) * sizeof(int[2]));
-        }
-        memcpy(position->dirs[position->dir_len], (int[2]){dr, dc}, sizeof(int[2]));
-        position->dir_len++;
       }
-    }
-
-    if (!pos_found) {
+    } else {
       if (pos_len == pos_capacity) {
         pos_capacity *= 2;
         positions = realloc(positions, pos_capacity * sizeof(struct rcd));
@@ -61,11 +69,13 @@ struct int_rcdarr_tuple* traverse(int pr, int pc, int br, int bc, int r, int c, 
       new_position.r = pr;
       new_position.c = pc;
       new_position.dir_len = 1;
-      new_position.dirs = malloc(5 * sizeof(int[2]));
+      new_position.dirs = malloc(3 * sizeof(int[2]));
       memcpy(new_position.dirs[0], (int[2]){dr, dc}, sizeof(int[2]));
       positions[pos_len] = new_position;
       pos_len++;
+      visited[pr][pc] = 1;
     }
+
 
     int nr = pr + dr;
     int nc = pc + dc;
@@ -75,7 +85,7 @@ struct int_rcdarr_tuple* traverse(int pr, int pc, int br, int bc, int r, int c, 
       continue;
     }
 
-    if (nr < 0 || nr > r || nc < 0 || nc > c) {
+    if (nr < 0 || nr >= r || nc < 0 || nc >= c) {
       break;
     }
 
@@ -87,6 +97,12 @@ struct int_rcdarr_tuple* traverse(int pr, int pc, int br, int bc, int r, int c, 
   res->p2_loop_found = 0;
   res->pos_len = pos_len;
   res->positions = positions;
+
+  for (int i = 0; i < r; i++) {
+    free(visited[i]);
+  }
+  free(visited);
+
   return res;
 }
 
