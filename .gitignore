@@ -2,5 +2,5 @@ fetch.bat
 get_input.py
 clean_up.bat
 
-test.*
+**/test.*
 sample.*
