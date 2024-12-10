@@ -63,12 +63,12 @@ int main(int argc, char *argv[]) {
   char *buffer = malloc(fsize + 1);
   size_t bytes_read = fread(buffer, 1, fsize, fileptr);
 
-  //if (bytes_read != fsize) {
-  //  perror("File reading failed");
-  //  fclose(fileptr);
-  //  free(buffer);
-  //  return 1;
-  //}
+  if (bytes_read != fsize) {
+    perror("File reading failed");
+    fclose(fileptr);
+    free(buffer);
+    return 1;
+  }
 
   fclose(fileptr);
   if (argc != 2) {
