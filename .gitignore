@@ -5,3 +5,5 @@ clean_up.bat
 **/test*.*
 **/sample*.*
 **/*.exe
+
+*.egg-info/
