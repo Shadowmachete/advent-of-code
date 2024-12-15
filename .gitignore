@@ -3,5 +3,5 @@ get_input.py
 clean_up.bat
 
 **/test*.*
-sample.*
+**/sample*.*
 **/*.exe

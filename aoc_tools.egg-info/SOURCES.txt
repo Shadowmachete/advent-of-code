@@ -1,0 +1,8 @@
+README.md
+setup.py
+aoc_tools/__init__.py
+aoc_tools/parsing.py
+aoc_tools.egg-info/PKG-INFO
+aoc_tools.egg-info/SOURCES.txt
+aoc_tools.egg-info/dependency_links.txt
+aoc_tools.egg-info/top_level.txt
