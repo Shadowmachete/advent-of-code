@@ -10,10 +10,10 @@ def read_file() -> str:
     return file
 
 
-def grid(input: str) -> tuple[int, int, list[str]]:
-    split_input = input.split("\n")
-    r = len(input)
-    c = len(input[0])
+def grid(input: str) -> tuple[int, int, list[list[str]]]:
+    split_input = [list(row) for row in input.split("\n")]
+    r = len(split_input)
+    c = len(split_input[0])
     return r, c, split_input
 
 
