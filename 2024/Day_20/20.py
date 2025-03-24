@@ -31,6 +31,24 @@ max_len = 2
 
 p1 = 0
 
+# cache = {}
+# cheats = set()
+# def solve(r, c, d, max_d, i):
+#     if d == 0:
+#         return 0
+#     if (r, c, d) not in cache:
+#         res = 0
+#         for dr, dc in DIRS4:
+#             nr, nc = r + dr, c + dc
+#             if nr not in range(1, R - 1) or nc not in range(1, C - 1):
+#                 continue
+#             if (nr, nc) not in path:
+#                 res += solve(r, c, d - 1, max_d, i)
+#             elif path.index((nr, nc)) - (max_d - d) - i >= 100:
+#
+#
+#     return cache[(r, c, d)]
+
 cheats = set()
 for idx, (r, c) in enumerate(path):
     if idx % 100 == 0:
