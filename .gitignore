@@ -1,17 +1,19 @@
-# Ignore my helper file
-fetch.bat
+# Ignore get_input.py as its just a python duplicate of fetch.bat
 get_input.py
-clean_up.bat
 
-# Ignore test files and exe files
-**/test*.*
-**/sample*.*
+# Ignore txt files and exe files
+**/*.txt
 **/*.exe
 
 # Ignore aoc_tools module related files
 *.egg-info/
 **/__pycache__
 
-# Ignore C library files (for now)
-aoc_tools.*
+# Ignore compiled C library files
+# The C library isnt finished yet but I'll just leave the .c and .h files
+# in the repo for now for reference
+aoc_tools.o
 libaoctools.a
+
+# Ignore mypy
+.mypy_cache/
