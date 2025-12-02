@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# Usage: ./fetch.sh [day] [year]
+# If no day is given, use current day
+# If no year is given, use current year
+# AOC_SESSION cookie value must be set in .env
+#
+# Resolve the directory the script is located in
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Path to the .env file next to the script
+ENV_FILE="${SCRIPT_DIR}/.env"
+
+if [ -f $ENV_FILE ]; then
+    export $(grep -v '^#' $ENV_FILE | xargs)
+else
+    echo ".env not found in script directory: $ENV_FILE. Please create a .env file with AOC_SESSION=..."
+    exit 1
+fi
+
+if [ -z "$AOC_SESSION" ]; then
+    echo "AOC_SESSION not set in .env"
+    exit 1
+fi
+
+day="${1:-$(date +%-d)}"
+year="${2:-$(date +%Y)}"
+
+OUTPUTFILE="${day}.txt"
+url="https://adventofcode.com/${year}/day/${day}/input"
+
+curl "$url" --cookie "session=${AOC_SESSION}" -o "$OUTPUTFILE"
+
+cat "$OUTPUTFILE"
+
