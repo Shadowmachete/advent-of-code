@@ -17,3 +17,9 @@ libaoctools.a
 
 # Ignore mypy
 .mypy_cache/
+
+# Ignore env
+.env
+
+# Rust build directory
+**/target/
