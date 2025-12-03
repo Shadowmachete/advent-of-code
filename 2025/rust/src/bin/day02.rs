@@ -28,6 +28,10 @@ fn main() {
         for num in range.start..range.end {
             let length = num.to_string().chars().count() as u8;
 
+            // if num / 10u32.pow(length / 2) == num % 10u32.pow(length / 2) {
+            //    task1 += num;
+            // }
+
             if length.is_multiple_of(2) && compare_segments(num, length, 2) == 0 {
                 task1 += num;
             }
