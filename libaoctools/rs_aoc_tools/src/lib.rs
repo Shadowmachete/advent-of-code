@@ -24,6 +24,9 @@ pub fn read_file(day: u8) -> String {
         .to_string()
 }
 
-pub fn nums(input: String) -> Vec<u32> {
-    input.chars().filter_map(|c| c.to_digit(10)).collect()
+pub fn nums<T: std::str::FromStr>(input: String) -> Vec<T> {
+    input
+        .split_whitespace()
+        .filter_map(|num| num.parse::<T>().ok())
+        .collect()
 }
